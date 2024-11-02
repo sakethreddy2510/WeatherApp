@@ -15,12 +15,16 @@ app.get("/weather", (req, res) => {
   if (!req.query.address) {
     return res.send("Please provide an address");
   }
-  getWeatherData(req.query.address, (error, data) => {
-    if (error) {
-      return res.send(error);
+  // Usage with async/await
+  async function getWeather() {
+    try {
+      const weatherData = await getWeatherData(req.query.address);
+      res.send(weatherData);
+    } catch (error) {
+      res.send(error);
     }
-    res.send(data);
-  });
+  }
+  getWeather();
 });
 
 app.listen(port, () => {
